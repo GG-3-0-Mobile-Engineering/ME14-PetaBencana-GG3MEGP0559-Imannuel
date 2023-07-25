@@ -19,8 +19,29 @@ data class ReportData(
     @SerializedName("report_type")
     val report_type: String? = null,
 
+    //flood
     @SerializedName("flood_depth")
-    val flood_depth: Int? = null
+    val flood_depth: Int? = null,
+
+    //volcano
+    @SerializedName("volcanicSigns")
+    val volcanicSigns: ArrayList<Int>? = null,
+
+    @SerializedName("evacuationNumber")
+    val evacuationNumber: Int? = null,
+
+    @SerializedName("evacuationArea")
+    val evacuationArea: Boolean? = null,
+
+    //earthquake
+    @SerializedName("accessabilityFailure")
+    val accessabilityFailure: Int? = null,
+
+    @SerializedName("structureFailure")
+    val structureFailure: Int? = null,
+
+    @SerializedName("condition")
+    val condition: Int? = null,
 )
 
 data class Tags(
