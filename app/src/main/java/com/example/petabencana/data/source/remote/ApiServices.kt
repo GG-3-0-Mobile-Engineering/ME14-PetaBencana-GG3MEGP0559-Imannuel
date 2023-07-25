@@ -8,7 +8,8 @@ import retrofit2.http.Query
 interface ApiServices{
 
     @GET("reports")
-    fun getLatestReports(
+    suspend fun getLatestReports(
+        @Query("disaster") disaster: String?=null
     ) : UrunDaya
 
 }

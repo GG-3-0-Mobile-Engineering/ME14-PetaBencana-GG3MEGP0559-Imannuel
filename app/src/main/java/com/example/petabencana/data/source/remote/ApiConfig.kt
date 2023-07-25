@@ -2,6 +2,7 @@ package com.example.petabencana.data.source.remote
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.example.petabencana.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -23,7 +24,7 @@ class ApiConfig(private val dataStore: DataStore<Preferences>) {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://data.petabencana.id/")
+            .baseUrl(BuildConfig.URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

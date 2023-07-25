@@ -11,8 +11,10 @@ import com.example.petabencana.data.source.local.preference.UserPreferences
 import com.example.petabencana.data.source.local.room.UrunDayaDAO
 import com.example.petabencana.data.source.local.room.UrunDayaDatabase
 import com.example.petabencana.data.source.remote.ApiConfig
+import com.example.petabencana.ui.home.HomeViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -36,5 +38,5 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-
+    viewModel { HomeViewModel(get()) }
 }

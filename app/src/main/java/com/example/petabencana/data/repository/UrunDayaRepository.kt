@@ -1,5 +1,6 @@
 package com.example.petabencana.data.repository
 
+import android.util.Log
 import com.example.petabencana.data.model.Properties
 import com.example.petabencana.data.model.UrunDaya
 import com.example.petabencana.data.source.local.room.UrunDayaDAO
@@ -12,11 +13,12 @@ import kotlinx.coroutines.flow.flowOn
 
 class UrunDayaRepository(private val apiServices: ApiServices, private val urunDayaDAO: UrunDayaDAO) {
 
-    fun getUrunDaya() : Flow<Resource<UrunDaya>>{
+    //api
+    suspend fun getUrunDaya(disaster : String? = null) : Flow<Resource<UrunDaya>>{
         return flow {
             emit(Resource.Loading)
             try {
-                val response = apiServices.getLatestReports()
+                val response = apiServices.getLatestReports(disaster)
                 emit(Resource.Success(response))
             }catch (e:Exception){
                 emit(Resource.Error(e.toString()))
@@ -24,6 +26,7 @@ class UrunDayaRepository(private val apiServices: ApiServices, private val urunD
         }.flowOn(Dispatchers.IO)
     }
 
+    //db
     fun getAllSavedUrunDaya() = urunDayaDAO.getAllSavedUrunDaya()
 
     fun getSavedUrunDayaById(id:Int) = urunDayaDAO.getSavedUrunDayaById(id)
