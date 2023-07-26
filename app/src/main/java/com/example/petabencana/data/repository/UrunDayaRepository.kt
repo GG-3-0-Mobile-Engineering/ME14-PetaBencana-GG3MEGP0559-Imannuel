@@ -16,18 +16,17 @@ import kotlinx.coroutines.flow.flowOn
 class UrunDayaRepository(private val apiServices: ApiServices, private val urunDayaDAO: UrunDayaDAO) {
 
     //api
-    suspend fun getUrunDaya(disaster : String? = null) : Flow<Resource<UrunDaya>>{
+    suspend fun getUrunDaya(admin:String? = null, disaster : String? = null, timePeriod : Int? = null) : Flow<Resource<UrunDaya>>{
         return flow {
             emit(Resource.Loading)
             try {
+                val response = apiServices.getLatestReports(
+                    admin = admin?.takeIf { !it.isNullOrEmpty() },
+                    disaster = disaster?.takeIf { !it.isNullOrEmpty()  },
+                    timePeriod = timePeriod?.takeIf { it != 0 }
+                )
 
-                if(disaster.isNullOrEmpty()){
-                    val response = apiServices.getLatestReports()
-                    emit(Resource.Success(response))
-                }else{
-                    val response = apiServices.getLatestReports(disaster)
-                    emit(Resource.Success(response))
-                }
+                emit(Resource.Success(response))
             }catch (e:Exception){
                 emit(Resource.Error(e.toString()))
             }

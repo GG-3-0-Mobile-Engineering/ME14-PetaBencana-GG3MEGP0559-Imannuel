@@ -6,6 +6,7 @@
     android:id="@+id/disasterItemCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="false"
     android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,12 +32,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toEndOf="@+id/disasterItemImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/disasterItemDescTv"
+            android:id="@+id/disasterItemTimeTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -44,6 +45,36 @@
             app:layout_constraintEnd_toEndOf="@+id/disasterItemTitleTv"
             app:layout_constraintStart_toStartOf="@+id/disasterItemTitleTv"
             app:layout_constraintTop_toBottomOf="@+id/disasterItemTitleTv" />
+
+        <TextView
+            android:id="@+id/disasterItemDescTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="@+id/disasterItemTimeTv"
+            app:layout_constraintStart_toStartOf="@+id/disasterItemTimeTv"
+            app:layout_constraintTop_toBottomOf="@+id/disasterItemTimeTv" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="317dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/favButton"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/baseline_favorite_border_24"
+            app:iconTint="#FF0000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
 

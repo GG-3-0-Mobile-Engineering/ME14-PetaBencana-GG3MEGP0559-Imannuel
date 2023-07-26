@@ -9,7 +9,9 @@ interface ApiServices{
 
     @GET("reports")
     suspend fun getLatestReports(
-        @Query("disaster") disaster: String?=null
+        @Query("admin") admin: String?=null,
+        @Query("disaster") disaster: String?=null,
+        @Query("timeperiod") timePeriod: Int?=null
     ) : UrunDaya
 
 }

@@ -2,30 +2,32 @@ package com.example.petabencana.ui.home
 
 import android.content.ContentValues
 import android.content.ContentValues.TAG
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView.OnQueryTextListener
+import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.view.get
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.petabencana.R
 import com.example.petabencana.databinding.FragmentMapsBinding
 import com.example.petabencana.ui.home.adapter.LatestDisasterAdapter
+import com.example.petabencana.utils.AreaList
 import com.example.petabencana.utils.Resource
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
+import com.google.android.material.search.SearchView
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class MapsFragment : Fragment() {
 
@@ -36,6 +38,7 @@ class MapsFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModel()
 
+    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: LatestDisasterAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,8 +56,9 @@ class MapsFragment : Fragment() {
         adapter = LatestDisasterAdapter {
             Toast.makeText(requireContext(), it.properties?.disasterType, Toast.LENGTH_SHORT).show()
         }
-        binding.latestDisasterRv.layoutManager = LinearLayoutManager(requireContext())
-        binding.latestDisasterRv.adapter = adapter
+        recyclerView = binding.latestDisasterRv
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
 
 
         mapFragment?.getMapAsync { googleMap ->
@@ -99,7 +103,6 @@ class MapsFragment : Fragment() {
 
                         is Resource.Error -> {
                             googleMap.clear()
-
                             Log.e(ContentValues.TAG, "err: " + result.error)
                         }
 
@@ -108,47 +111,102 @@ class MapsFragment : Fragment() {
                         }
                     }
                 }
-
-//
-
             } else {
                 Log.e(ContentValues.TAG, "Google Map is null.")
             }
         }
 
+        binding.searchBar.inflateMenu(R.menu.main_menu)
+        binding.searchBar.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.menu_settings-> {
+                    Toast.makeText(requireContext(), "MENU SETTINGS", Toast.LENGTH_SHORT).show()
+                    true
 
-        binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                Toast.makeText(requireContext(), query, Toast.LENGTH_SHORT).show()
-                return true
+                }
+
+                R.id.menu_period -> {
+                    Toast.makeText(requireContext(), "MENU PERIOD", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+
+                else -> {
+                    true
+
+                }
+
+
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-
-        })
-
-        binding.settingsButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Option", Toast.LENGTH_SHORT).show()
         }
+
+
+
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, AreaList.dataList)
+        binding.areaListView.adapter = adapter
+
+        binding.sv.addTransitionListener { searchView, previousState, newState ->
+            if (newState == SearchView.TransitionState.SHOWING) {
+                searchView.editText.addTextChangedListener(object : TextWatcher{
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                        
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                        adapter.filter.filter(s.toString())
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                    }
+
+                })
+            }
+        }
+
+        binding.sv
+            .getEditText()
+            .setOnEditorActionListener { v, actionId, event ->
+                binding.searchBar.setText(binding.sv.getText())
+                binding.sv.hide()
+                viewModel.setArea(AreaList.getAreaId(binding.sv.text.toString()))
+                false
+            }
+
+        binding.areaListView.setOnItemClickListener { _, _, position, _ ->
+            val selectedItem = adapter.getItem(position)
+            binding.sv.setText(selectedItem.toString())
+
+        }
+
 
         for (i in 0 until binding.disasterChipGroup.childCount) {
             val chip: Chip = binding.disasterChipGroup.getChildAt(i) as Chip
 
             chip.setOnCheckedChangeListener{ selectedChip, isChecked ->
                 if(isChecked){
-                    viewModel.setQuery(selectedChip.text.toString().toLowerCase())
-                    Log.e(TAG, "onViewCreated: selected ${selectedChip.text}", )
+                    viewModel.setDisaster(selectedChip.text.toString().toLowerCase())
+                    Log.e(TAG, "onViewCreated: selected ${selectedChip.text}")
                 }else{
-                    viewModel.setQuery("")
-                    Log.e(TAG, "onViewCreated: unselected ${selectedChip.text}", )
+                    viewModel.setDisaster("")
+                    Log.e(TAG, "onViewCreated: unselected ${selectedChip.text}")
 
                 }
 
             }
 
         }
+
+
 
 
 
