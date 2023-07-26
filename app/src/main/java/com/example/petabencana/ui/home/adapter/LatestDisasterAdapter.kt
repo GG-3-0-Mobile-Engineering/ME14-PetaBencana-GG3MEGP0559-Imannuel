@@ -8,6 +8,7 @@ import com.example.petabencana.R
 import com.example.petabencana.data.model.Geometries
 import com.example.petabencana.databinding.DisasterItemBinding
 import com.example.petabencana.utils.DiffUtil
+import com.example.petabencana.utils.TimeUtils
 
 class LatestDisasterAdapter( private val listener: (Geometries) -> Unit): RecyclerView.Adapter<LatestDisasterAdapter.latestDisasterViewHolder>() {
     private var items = emptyList<Geometries>()
@@ -15,6 +16,7 @@ class LatestDisasterAdapter( private val listener: (Geometries) -> Unit): Recycl
     class latestDisasterViewHolder(binding: DisasterItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val image = binding.disasterItemImageView
         private val title = binding.disasterItemTitleTv
+        private val time = binding.disasterItemTimeTv
         private val desc = binding.disasterItemDescTv
 
         fun bind(item : Geometries){
@@ -29,6 +31,8 @@ class LatestDisasterAdapter( private val listener: (Geometries) -> Unit): Recycl
             }else{
                 title.setText(item.properties?.title)
             }
+
+            time.text = TimeUtils.getTimeAgo(item.properties?.createdAt.toString())
 
             desc.text = item.properties?.text
 

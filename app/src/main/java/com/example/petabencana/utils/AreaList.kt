@@ -6,6 +6,7 @@ object AreaList {
         "Aceh",
         "Bali",
         "Kep Bangka Belitung",
+        "Banten",
         "Bengkulu",
         "Jawa Tengah",
         "Kalimantan Tengah",
@@ -27,11 +28,14 @@ object AreaList {
         "Kepulauan Riau",
         "Sulawesi Tenggara",
         "Kalimantan Selatan",
+        "Sulawesi Selatan",
+        "Sumatra Selatan",
         "DI Yogyakarta",
         "Jawa Barat",
         "Kalimantan Barat",
         "Nusa Tenggara Barat",
         "Papua Barat",
+        "Sulawesi Barat",
         "Sumatra Barat",
     )
 

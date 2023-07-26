@@ -92,6 +92,5 @@ dependencies {
     implementation "androidx.room:room-ktx:2.5.2"
     kapt 'androidx.room:room-compiler:2.5.2'
 
-    implementation 'com.maxkeppeler.sheets:core:2.3.1'
-
+    implementation 'androidx.preference:preference:1.1.1'
 }

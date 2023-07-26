@@ -1,5 +1,6 @@
 package com.example.petabencana.ui.home
 
+import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.petabencana.R
@@ -27,7 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.search.SearchView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
+import java.util.Calendar
 
 class MapsFragment : Fragment() {
 
@@ -40,6 +42,8 @@ class MapsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: LatestDisasterAdapter
+
+    val selectedCalendar =  Calendar.getInstance()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,7 +63,6 @@ class MapsFragment : Fragment() {
         recyclerView = binding.latestDisasterRv
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-
 
         mapFragment?.getMapAsync { googleMap ->
             if (googleMap != null) {
@@ -95,6 +98,7 @@ class MapsFragment : Fragment() {
 
                                 adapter.setData(result.data.result?.objects?.output?.geometries!!)
                             } else{
+                                adapter.setData(emptyList())
                                 Toast.makeText(requireContext(), "No disaster found", Toast.LENGTH_SHORT).show()
                             }
 
@@ -120,13 +124,13 @@ class MapsFragment : Fragment() {
         binding.searchBar.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.menu_settings-> {
-                    Toast.makeText(requireContext(), "MENU SETTINGS", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_mapsFragment_to_settingFragment)
                     true
 
                 }
 
                 R.id.menu_period -> {
-                    Toast.makeText(requireContext(), "MENU PERIOD", Toast.LENGTH_SHORT).show()
+                    showDatePickerDialog()
                     true
                 }
 
@@ -213,6 +217,41 @@ class MapsFragment : Fragment() {
 
 
 
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            DatePickerDialog.OnDateSetListener { view, selectedYear, selectedMonth, selectedDay ->
+
+
+                selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
+                val resultInSeconds = (selectedCalendar.timeInMillis - calendar.timeInMillis) / 1000
+
+                viewModel.setTimePeriod(Math.abs(resultInSeconds).toInt())
+            },
+            year,
+            month,
+            day
+        )
+
+        // Set the maximum allowed date (7 days from today)
+        val minDate = Calendar.getInstance()
+        minDate.add(Calendar.DAY_OF_MONTH, -7)
+
+        datePickerDialog.datePicker.minDate = minDate.timeInMillis
+        datePickerDialog.datePicker.maxDate = calendar.timeInMillis
+
+        datePickerDialog.setTitle("Select period before today")
+
+        datePickerDialog.datePicker.updateDate(selectedCalendar.get(Calendar.YEAR), selectedCalendar.get(Calendar.MONTH), selectedCalendar.get(Calendar.DAY_OF_MONTH))
+
+        datePickerDialog.show()
     }
 
 
