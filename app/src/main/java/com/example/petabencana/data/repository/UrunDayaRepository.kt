@@ -1,6 +1,8 @@
 package com.example.petabencana.data.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import com.example.petabencana.data.model.Properties
 import com.example.petabencana.data.model.UrunDaya
 import com.example.petabencana.data.source.local.room.UrunDayaDAO
@@ -18,12 +20,18 @@ class UrunDayaRepository(private val apiServices: ApiServices, private val urunD
         return flow {
             emit(Resource.Loading)
             try {
-                val response = apiServices.getLatestReports(disaster)
-                emit(Resource.Success(response))
+
+                if(disaster.isNullOrEmpty()){
+                    val response = apiServices.getLatestReports()
+                    emit(Resource.Success(response))
+                }else{
+                    val response = apiServices.getLatestReports(disaster)
+                    emit(Resource.Success(response))
+                }
             }catch (e:Exception){
                 emit(Resource.Error(e.toString()))
             }
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
     //db

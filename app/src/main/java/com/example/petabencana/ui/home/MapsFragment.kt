@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.petabencana.R
 import com.example.petabencana.databinding.FragmentMapsBinding
@@ -22,18 +23,20 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MapsFragment : Fragment() {
 
-    private var _binding : FragmentMapsBinding? = null
+    private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
 
     private val boundsBuilder = LatLngBounds.Builder()
 
-    private val viewModel : HomeViewModel by viewModel()
+    private val viewModel: HomeViewModel by viewModel()
 
-    private lateinit var adapter : LatestDisasterAdapter
+    private lateinit var adapter: LatestDisasterAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +50,7 @@ class MapsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 
-        adapter = LatestDisasterAdapter{
+        adapter = LatestDisasterAdapter {
             Toast.makeText(requireContext(), it.properties?.disasterType, Toast.LENGTH_SHORT).show()
         }
         binding.latestDisasterRv.layoutManager = LinearLayoutManager(requireContext())
@@ -56,45 +59,52 @@ class MapsFragment : Fragment() {
 
         mapFragment?.getMapAsync { googleMap ->
             if (googleMap != null) {
-                viewModel.result.observe(viewLifecycleOwner){result->
-                    when(result){
+                viewModel.result.observe(viewLifecycleOwner) { result ->
+                    when (result) {
                         is Resource.Success -> {
-                            result.data.result?.objects?.output?.geometries?.forEach {
-                                val lat = it.coordinates[1]
-                                val lng = it.coordinates[0]
-                                Log.e(TAG, "tyoe: ${it.properties?.disasterType}", )
-                                Log.e(TAG, "latlnt: /$lat / $lng", )
-                                val latLng = LatLng(lat, lng)
-                                googleMap.addMarker(MarkerOptions()
-                                    .position(latLng)
-                                    .title(it.properties?.reportData?.report_type)
-                                    .snippet("kedalaman banjir: ${it.properties?.reportData?.flood_depth}")
-                                )
-                                boundsBuilder.include(latLng)
-                            }
+                            googleMap.clear()
 
-                            val bounds: LatLngBounds = boundsBuilder.build()
-                            googleMap.animateCamera(
-                                CameraUpdateFactory.newLatLngBounds(
-                                    bounds,
-                                    resources.displayMetrics.widthPixels,
-                                    resources.displayMetrics.heightPixels,
-                                    300
+                            if (!result.data.result?.objects?.output?.geometries.isNullOrEmpty()) {
+                                result.data.result?.objects?.output?.geometries?.forEach {
+                                    val lat = it.coordinates[1]
+                                    val lng = it.coordinates[0]
+                                    Log.e(TAG, "tyoe: ${it.properties?.disasterType}")
+                                    Log.e(TAG, "latlnt: /$lat / $lng")
+                                    val latLng = LatLng(lat, lng)
+                                    googleMap.addMarker(
+                                        MarkerOptions()
+                                            .position(latLng)
+                                            .title(it.properties?.disasterType)
+                                    )
+                                    boundsBuilder.include(latLng)
+                                }
+
+                                val bounds: LatLngBounds = boundsBuilder.build()
+                                googleMap.animateCamera(
+                                    CameraUpdateFactory.newLatLngBounds(
+                                        bounds,
+                                        resources.displayMetrics.widthPixels,
+                                        resources.displayMetrics.heightPixels,
+                                        300
+                                    )
                                 )
-                            )
 
                                 adapter.setData(result.data.result?.objects?.output?.geometries!!)
-
+                            } else{
+                                Toast.makeText(requireContext(), "No disaster found", Toast.LENGTH_SHORT).show()
+                            }
 
 
                         }
 
                         is Resource.Error -> {
-                            Log.e(ContentValues.TAG, "err: "+ result.error, )
+                            googleMap.clear()
+
+                            Log.e(ContentValues.TAG, "err: " + result.error)
                         }
 
                         is Resource.Loading -> {
-                            Log.e(ContentValues.TAG, "loading: ", )
+                            Log.e(ContentValues.TAG, "loading: ")
                         }
                     }
                 }
@@ -107,7 +117,7 @@ class MapsFragment : Fragment() {
         }
 
 
-        binding.searchView.setOnQueryTextListener(object : OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Toast.makeText(requireContext(), query, Toast.LENGTH_SHORT).show()
                 return true
@@ -119,16 +129,33 @@ class MapsFragment : Fragment() {
 
         })
 
-        binding.settingsButton.setOnClickListener{
+        binding.settingsButton.setOnClickListener {
             Toast.makeText(requireContext(), "Option", Toast.LENGTH_SHORT).show()
+        }
+
+        for (i in 0 until binding.disasterChipGroup.childCount) {
+            val chip: Chip = binding.disasterChipGroup.getChildAt(i) as Chip
+
+            chip.setOnCheckedChangeListener{ selectedChip, isChecked ->
+                if(isChecked){
+                    viewModel.setQuery(selectedChip.text.toString().toLowerCase())
+                    Log.e(TAG, "onViewCreated: selected ${selectedChip.text}", )
+                }else{
+                    viewModel.setQuery("")
+                    Log.e(TAG, "onViewCreated: unselected ${selectedChip.text}", )
+
+                }
+
+            }
+
         }
 
 
 
 
+
+
     }
-
-
 
 
 }

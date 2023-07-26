@@ -13,34 +13,136 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.MapsFragment" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="32dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <SearchView
-            android:id="@+id/searchView"
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_rounded"
+                android:iconifiedByDefault="false"
+                android:queryHint="Cari disini" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settingsButton"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="#9575CD"
+                app:backgroundTintMode="add"
+                app:icon="@drawable/outline_settings_24"
+                app:iconTint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+        <HorizontalScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_white_rounded"
-            android:iconifiedByDefault="false"
-            android:queryHint="Cari disini"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/settingsButton"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:backgroundTint="#9575CD"
-            app:backgroundTintMode="add"
-            app:icon="@drawable/outline_settings_24"
-            app:iconTint="#FFFFFF"
+            android:layout_below="@+id/searchLayout"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchLayout">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/disasterChipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/floodChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Flood"
+                        android:checkable="true"
+                        app:checkedIconVisible="true"
+                        app:chipIcon="@drawable/baseline_add_24" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/earthquakeChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Earthquake"
+                        android:checkable="true"
+                        app:checkedIconVisible="true"
+                        app:chipIcon="@drawable/baseline_add_24" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/assessmentChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Assessment"
+                        android:checkable="true"
+                        app:checkedIconVisible="true"
+                        app:chipIcon="@drawable/baseline_add_24" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/fireChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fire"
+                        android:checkable="true"
+                        app:checkedIconVisible="true"
+                        app:chipIcon="@drawable/baseline_add_24" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/hazeChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Haze"
+                        android:checkable="true"
+                        app:checkedIconVisible="true"
+                        app:chipIcon="@drawable/baseline_add_24" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/volcanoChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Volcano"
+                        android:checkable="true"
+                        app:checkedIconVisible="true"
+                        app:chipIcon="@drawable/baseline_add_24" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/windChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Wind"
+                        android:checkable="true"
+                        app:checkedIconVisible="true"
+                        app:chipIcon="@drawable/baseline_add_24" />
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+        </HorizontalScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
     <LinearLayout

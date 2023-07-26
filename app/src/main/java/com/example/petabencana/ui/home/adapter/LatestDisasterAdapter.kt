@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.petabencana.R
 import com.example.petabencana.data.model.Geometries
 import com.example.petabencana.databinding.DisasterItemBinding
 import com.example.petabencana.utils.DiffUtil
@@ -17,7 +18,11 @@ class LatestDisasterAdapter( private val listener: (Geometries) -> Unit): Recycl
         private val desc = binding.disasterItemDescTv
 
         fun bind(item : Geometries){
-            Glide.with(itemView).load(item.properties?.imageUrl).into(image)
+            if(item.properties?.imageUrl == null){
+                Glide.with(itemView).load(R.drawable.noimg).into(image)
+            }else{
+                Glide.with(itemView).load(item.properties?.imageUrl).into(image)
+            }
 
             if(item.properties?.title==null){
                 title.setText(item.properties?.disasterType)
