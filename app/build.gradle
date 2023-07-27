@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.petabencana'
+    namespace 'com.imannuel.petabencana'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.petabencana"
+        applicationId "com.imannuel.petabencana"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -93,4 +93,6 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.5.2'
 
     implementation 'androidx.preference:preference:1.1.1'
+
+    implementation "androidx.work:work-runtime:2.8.1"
 }
