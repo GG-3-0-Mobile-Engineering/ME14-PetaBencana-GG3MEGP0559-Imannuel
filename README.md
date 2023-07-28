@@ -52,5 +52,5 @@ Disaster Map is an application that helps users  to monitor various natural disa
 
 ## Demo
 
-https://drive.google.com/file/d/1cj1PCtFuxZR2yFDvwkc17gCrUb11l21u/view?usp=sharing
+https://drive.google.com/file/d/1cj1PCtFuxZR2yFDvwkc17gCrUb11l21u/view?usp=sharing 
 
