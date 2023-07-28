@@ -47,7 +47,7 @@ class SettingFragment : PreferenceFragmentCompat() {
 
             when (newValue as Boolean) {
                 true -> {
-                    Toast.makeText(requireContext(), "NOTIFIKASI HIDUP", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Notification On", Toast.LENGTH_SHORT).show()
 
                     val constraint = Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -73,7 +73,7 @@ class SettingFragment : PreferenceFragmentCompat() {
                 }
 
                 false -> {
-                    Toast.makeText(requireContext(), "NOTIFIKASI MATI", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Notification Off", Toast.LENGTH_SHORT).show()
                     workManager.cancelAllWork()
                 }
 

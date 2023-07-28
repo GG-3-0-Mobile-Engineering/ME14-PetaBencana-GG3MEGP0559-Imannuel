@@ -38,10 +38,10 @@ class UrunDayaRepository(
     //db
     fun getAllSavedUrunDaya() = urunDayaDAO.getAllSavedUrunDaya()
 
-    fun getSavedUrunDayaById(id: Int) = urunDayaDAO.getSavedUrunDayaById(id)
+    fun isUrunDayaExist(id: String) = urunDayaDAO.isUrunDayaExist(id)
 
     suspend fun saveUrunDaya(urunDaya: Properties) = urunDayaDAO.saveUrunDaya(urunDaya)
 
-    suspend fun deleteUrunDaya(urunDaya: Properties) = urunDayaDAO.deleteUrunDaya(urunDaya)
+    suspend fun deleteUrunDaya(id: String) = urunDayaDAO.deleteUrunDaya(id)
 
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.imannuel.petabencana.data.model.Properties
 
@@ -14,13 +15,13 @@ interface UrunDayaDAO {
     @Query("SELECT * from urundaya")
     fun getAllSavedUrunDaya(): LiveData<List<Properties>>
 
-    @Query("SELECT * from urundaya WHERE pkey = :id")
-    fun getSavedUrunDayaById(id: Int): LiveData<Properties>
+    @Query("SELECT EXISTS(SELECT * from urundaya WHERE pkey = :id)")
+    fun isUrunDayaExist(id: String): LiveData<Int>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveUrunDaya(urunDaya: Properties): Long
 
-    @Delete
-    suspend fun deleteUrunDaya(urunDaya: Properties)
+    @Query("DELETE FROM URUNDAYA WHERE pkey =:id")
+    suspend fun deleteUrunDaya(id: String)
 
 }

@@ -8,6 +8,11 @@
         app:showAsAction="always"
         />
 
+    <item android:id="@+id/menu_saved"
+        android:icon="@drawable/baseline_bookmark_border_24"
+        android:title="Saved"
+        app:showAsAction="always"/>
+
     <item android:id="@+id/menu_settings"
         android:icon="@drawable/outline_settings_24"
         android:title="Settings"

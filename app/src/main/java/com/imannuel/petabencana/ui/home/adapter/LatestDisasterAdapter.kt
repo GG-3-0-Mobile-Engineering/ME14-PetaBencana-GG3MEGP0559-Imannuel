@@ -39,6 +39,7 @@ class LatestDisasterAdapter(private val listener: (Geometries) -> Unit) :
             desc.text = item.properties?.text
 
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): latestDisasterViewHolder {
@@ -58,6 +59,7 @@ class LatestDisasterAdapter(private val listener: (Geometries) -> Unit) :
     override fun onBindViewHolder(holder: latestDisasterViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
+
         holder.itemView.setOnClickListener {
             listener(item)
         }
@@ -69,4 +71,6 @@ class LatestDisasterAdapter(private val listener: (Geometries) -> Unit) :
         items = data
         diffResult.dispatchUpdatesTo(this)
     }
+
+
 }

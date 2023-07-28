@@ -13,10 +13,30 @@
         <action
             android:id="@+id/action_mapsFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_mapsFragment_to_savedFragment"
+            app:destination="@id/savedFragment" />
+        <action
+            android:id="@+id/action_mapsFragment_to_savedDetailFragment"
+            app:destination="@id/savedDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.imannuel.petabencana.ui.setting.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/savedFragment"
+        android:name="com.imannuel.petabencana.ui.saved.SavedFragment"
+        android:label="fragment_saved"
+        tools:layout="@layout/fragment_saved" >
+        <action
+            android:id="@+id/action_savedFragment_to_savedDetailFragment"
+            app:destination="@id/savedDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedDetailFragment"
+        android:name="com.imannuel.petabencana.ui.saved.detail.SavedDetailFragment"
+        android:label="fragment_saved_detail"
+        tools:layout="@layout/fragment_saved_detail" />
 </navigation>

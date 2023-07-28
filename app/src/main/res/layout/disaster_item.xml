@@ -6,7 +6,7 @@
     android:id="@+id/disasterItemCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="false"
+    android:clickable="true"
     android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,10 +65,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/favButton"
+            android:clickable="false"
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:icon="@drawable/baseline_favorite_border_24"
+            app:icon="@drawable/baseline_arrow_forward_ios_24"
             app:iconTint="#FF0000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

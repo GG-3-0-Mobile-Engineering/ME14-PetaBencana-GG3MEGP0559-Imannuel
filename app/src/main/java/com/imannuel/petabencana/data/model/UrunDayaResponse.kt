@@ -1,9 +1,12 @@
 package com.imannuel.petabencana.data.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 
 data class UrunDaya(
@@ -55,10 +58,14 @@ data class Tags(
     val instance_region_code: String? = null
 )
 
+@Parcelize
 @Entity(tableName = "urundaya")
 data class Properties(
     @PrimaryKey(autoGenerate = true) val uid: Int = 0,
     @SerializedName("pkey") var pkey: String? = null,
+
+    @ColumnInfo
+    var isSaved: Boolean = false,
 
     @ColumnInfo
     @SerializedName("created_at") var createdAt: String? = null,
@@ -79,17 +86,17 @@ data class Properties(
     @SerializedName("disaster_type") var disasterType: String? = null,
 
     @ColumnInfo
-    @SerializedName("report_data") var reportData: ReportData? = null,
+    @SerializedName("report_data") var reportData: @RawValue ReportData? = null,
 
     @ColumnInfo
-    @SerializedName("tags") var tags: Tags? = null,
+    @SerializedName("tags") var tags: @RawValue Tags? = null,
 
     @ColumnInfo
     @SerializedName("title") var title: String? = null,
 
     @ColumnInfo
     @SerializedName("text") var text: String? = null
-)
+) : Parcelable
 
 data class Geometries(
     @SerializedName("type") var type: String? = null,

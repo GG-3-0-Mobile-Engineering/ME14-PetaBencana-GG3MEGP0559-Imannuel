@@ -22,6 +22,7 @@ import com.imannuel.petabencana.utils.AreaList
 import com.imannuel.petabencana.utils.Resource
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
@@ -75,11 +76,31 @@ class MapsFragment : Fragment() {
                                 val lat = it.coordinates[1]
                                 val lng = it.coordinates[0]
                                 val latLng = LatLng(lat, lng)
+
+                                val customMarkerIcon = when (it.properties?.disasterType) {
+                                    "flood" -> BitmapDescriptorFactory.fromResource(R.drawable.flood)
+                                    "earthquake" -> BitmapDescriptorFactory.fromResource(R.drawable.earthquakes)
+                                    "fire" -> BitmapDescriptorFactory.fromResource(R.drawable.fire)
+                                    "haze" -> BitmapDescriptorFactory.fromResource(R.drawable.haze)
+                                    "wind" -> BitmapDescriptorFactory.fromResource(R.drawable.wind)
+                                    else -> BitmapDescriptorFactory.fromResource(R.drawable.volcano)
+                                }
                                 googleMap.addMarker(
                                     MarkerOptions()
                                         .position(latLng)
                                         .title(it.properties?.disasterType)
+                                        .icon(customMarkerIcon)
                                 )
+
+                                googleMap.setOnMarkerClickListener { marker ->
+                                    val bundle = Bundle()
+                                    bundle.putParcelable("key_data", it.properties)
+                                    findNavController().navigate(
+                                        R.id.action_mapsFragment_to_savedDetailFragment,
+                                        bundle
+                                    )
+                                    true
+                                }
                                 boundsBuilder.include(latLng)
                             }
 
@@ -123,7 +144,10 @@ class MapsFragment : Fragment() {
 
     private fun setupAdapter() {
         adapter = LatestDisasterAdapter {
-            Toast.makeText(requireContext(), it.properties?.disasterType, Toast.LENGTH_SHORT).show()
+
+            val bundle = Bundle()
+            bundle.putParcelable("key_data", it.properties)
+            findNavController().navigate(R.id.action_mapsFragment_to_savedDetailFragment, bundle)
         }
         recyclerView = binding.latestDisasterRv
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -159,6 +183,11 @@ class MapsFragment : Fragment() {
 
                 R.id.menu_period -> {
                     showDatePickerDialog()
+                    true
+                }
+
+                R.id.menu_saved -> {
+                    findNavController().navigate(R.id.action_mapsFragment_to_savedFragment)
                     true
                 }
 
@@ -229,9 +258,15 @@ class MapsFragment : Fragment() {
             { view, selectedYear, selectedMonth, selectedDay ->
 
                 selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
-                val resultInSeconds = (selectedCalendar.timeInMillis - calendar.timeInMillis) / 1000
+                val resultInSeconds =
+                    abs((selectedCalendar.timeInMillis - calendar.timeInMillis) / 1000).toInt()
 
-                viewModel.setTimePeriod(abs(resultInSeconds).toInt())
+                if (resultInSeconds > 604800) {
+                    viewModel.setTimePeriod(604800)
+                } else {
+                    viewModel.setTimePeriod(resultInSeconds)
+                }
+
             },
             year,
             month,
