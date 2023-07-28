@@ -1,15 +1,20 @@
 package com.imannuel.petabencana.ui.saved.detail
 
+import android.content.ContentValues
+import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.android.gms.maps.model.LatLng
 import com.imannuel.petabencana.data.model.Properties
 import com.imannuel.petabencana.databinding.FragmentSavedDetailBinding
 import com.imannuel.petabencana.utils.TimeUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Locale
 
 
 class SavedDetailFragment : Fragment() {
@@ -18,12 +23,16 @@ class SavedDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var prop: Properties
+    private var lat : Double = 0.0
+    private var lon : Double = 0.0
 
     private val viewModel: SavedDetailViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prop = arguments?.getParcelable("key_data")!!
+        lat = arguments?.getDouble("lat")?.toDouble() ?: 0.0
+        lon = arguments?.getDouble("lon")?.toDouble() ?: 0.0
     }
 
     override fun onCreateView(
@@ -41,10 +50,21 @@ class SavedDetailFragment : Fragment() {
             Glide.with(binding.root).load(prop.imageUrl).into(binding.imageViewDisaster)
         }
 
+
+        val latLng = LatLng(lat, lon)
+        val address = getAddress(latLng)
+
         binding.createdAtTv.text = "Created At: " + TimeUtils.getTimeAgo(prop.createdAt.toString())
         binding.sourceTv.text = "Source: " + prop.source
         binding.statusTv.text = "Status: " + prop.status
         binding.sisasterTypeTv.text = "Disaster Type: " + prop.disasterType
+
+        if(address == ""){
+            binding.addressTv.visibility = View.GONE
+        }else{
+            binding.addressTv.text = "Address: $address"
+
+        }
 
         viewModel.isUrunDayaExist(prop.pkey.toString()).observe(viewLifecycleOwner) {
             if (it == 1) {
@@ -60,6 +80,22 @@ class SavedDetailFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun getAddress(latLng: LatLng): String{
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        try {
+            val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            if (addresses != null && addresses.isNotEmpty()) {
+                val address = addresses[0]
+                return address.getAddressLine(0)
+            }
+
+            return ""
+        } catch (e: Exception) {
+            return ""
+            Log.e(ContentValues.TAG, "getAddress: $e", )
+        }
     }
 
 }

@@ -1,7 +1,9 @@
 package com.imannuel.petabencana.ui.home
 
 import android.app.DatePickerDialog
+import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -88,19 +90,9 @@ class MapsFragment : Fragment() {
                                 googleMap.addMarker(
                                     MarkerOptions()
                                         .position(latLng)
-                                        .title(it.properties?.disasterType)
+                                        .title(getAddress(latLng))
                                         .icon(customMarkerIcon)
                                 )
-
-                                googleMap.setOnMarkerClickListener { marker ->
-                                    val bundle = Bundle()
-                                    bundle.putParcelable("key_data", it.properties)
-                                    findNavController().navigate(
-                                        R.id.action_mapsFragment_to_savedDetailFragment,
-                                        bundle
-                                    )
-                                    true
-                                }
                                 boundsBuilder.include(latLng)
                             }
 
@@ -147,6 +139,9 @@ class MapsFragment : Fragment() {
 
             val bundle = Bundle()
             bundle.putParcelable("key_data", it.properties)
+            bundle.putDouble("lat", it.coordinates[1])
+            bundle.putDouble("lon", it.coordinates[0])
+
             findNavController().navigate(R.id.action_mapsFragment_to_savedDetailFragment, bundle)
         }
         recyclerView = binding.latestDisasterRv
@@ -199,6 +194,8 @@ class MapsFragment : Fragment() {
         }
     }
 
+
+
     private fun setupSearchView() {
         val adapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, AreaList.dataList)
@@ -244,6 +241,22 @@ class MapsFragment : Fragment() {
         binding.areaListView.setOnItemClickListener { adapterView, view, position, l ->
             val selectedItem = adapter.getItem(position)
             binding.sv.setText(selectedItem.toString())
+        }
+    }
+
+    private fun getAddress(latLng: LatLng): String{
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        try {
+            val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            if (addresses != null && addresses.isNotEmpty()) {
+                val address = addresses[0]
+                return address.getAddressLine(0)
+            }
+
+            return ""
+        } catch (e: Exception) {
+            return ""
+            Log.e(ContentValues.TAG, "getAddress: $e", )
         }
     }
 

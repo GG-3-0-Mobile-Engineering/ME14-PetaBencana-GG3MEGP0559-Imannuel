@@ -54,7 +54,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/noimg"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/statusTv" />
+            app:layout_constraintTop_toBottomOf="@+id/addressTv" />
 
         <TextView
             android:id="@+id/sisasterTypeTv"
@@ -86,6 +86,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/addressTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statusTv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
