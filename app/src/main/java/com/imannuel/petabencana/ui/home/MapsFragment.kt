@@ -1,8 +1,11 @@
 package com.imannuel.petabencana.ui.home
 
 import android.app.DatePickerDialog
+import android.app.UiModeManager
 import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.res.Configuration
 import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
@@ -13,9 +16,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.imannuel.petabencana.R
@@ -28,6 +33,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.search.SearchView
@@ -44,7 +50,7 @@ class MapsFragment : Fragment() {
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
 
-    private val boundsBuilder = LatLngBounds.Builder()
+//    private val boundsBuilder = LatLngBounds.Builder()
 
 //    private val viewModel: HomeViewModel by viewModel()
 
@@ -74,10 +80,17 @@ class MapsFragment : Fragment() {
         setupSearchView()
 
         mapFragment?.getMapAsync { googleMap ->
+
+            if(setupMapStyle()){
+                googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+            }
+
             viewModel.result.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Resource.Success -> {
                         googleMap.clear()
+                        setLoading(false)
+                        val boundsBuilder = LatLngBounds.Builder()
 
                         if (!result.data.result?.objects?.output?.geometries.isNullOrEmpty()) {
                             result.data.result?.objects?.output?.geometries?.forEach {
@@ -127,10 +140,12 @@ class MapsFragment : Fragment() {
 
                     is Resource.Error -> {
                         googleMap.clear()
+                        setLoading(false)
                         Log.e(TAG, "err: " + result.error)
                     }
 
                     is Resource.Loading -> {
+                        setLoading(true)
                         Log.e(TAG, "loading: ")
                     }
                 }
@@ -200,7 +215,20 @@ class MapsFragment : Fragment() {
         }
     }
 
-
+    private fun setupMapStyle() : Boolean{
+        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        preferences.getString("darkModePreferenceKey", "auto").apply {
+            return when (this) {
+                "off" -> false
+                "on" -> true
+                else -> {
+                    val uiModeManager = requireContext().getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+                    val nightModeFlags = uiModeManager.nightMode
+                    return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+                }
+            }
+        }
+    }
 
     private fun setupSearchView() {
         val adapter =
@@ -307,6 +335,14 @@ class MapsFragment : Fragment() {
         )
 
         datePickerDialog.show()
+    }
+
+    private fun setLoading(bool : Boolean){
+        if(bool){
+            binding.progressBar.visibility = View.VISIBLE
+        }else{
+            binding.progressBar.visibility = View.GONE
+        }
     }
 
 
