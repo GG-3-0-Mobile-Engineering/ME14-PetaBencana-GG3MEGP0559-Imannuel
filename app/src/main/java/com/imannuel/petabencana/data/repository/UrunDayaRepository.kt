@@ -7,8 +7,9 @@ import com.imannuel.petabencana.data.source.remote.ApiServices
 import com.imannuel.petabencana.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class UrunDayaRepository(
+class UrunDayaRepository @Inject constructor(
     private val apiServices: ApiServices,
     private val urunDayaDAO: UrunDayaDAO
 ) {

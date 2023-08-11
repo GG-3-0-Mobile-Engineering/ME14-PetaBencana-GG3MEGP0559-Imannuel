@@ -10,9 +10,12 @@ import androidx.lifecycle.switchMap
 import com.imannuel.petabencana.data.model.UrunDaya
 import com.imannuel.petabencana.data.repository.UrunDayaRepository
 import com.imannuel.petabencana.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
-class HomeViewModel(private val urunDayaRepository: UrunDayaRepository) : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val urunDayaRepository: UrunDayaRepository) : ViewModel() {
 
     private var _area = MutableLiveData<String>()
     private val area: LiveData<String> = _area.distinctUntilChanged()

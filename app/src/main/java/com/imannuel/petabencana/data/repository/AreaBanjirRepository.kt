@@ -5,8 +5,9 @@ import com.imannuel.petabencana.data.source.remote.ApiServices
 import com.imannuel.petabencana.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class AreaBanjirRepository(private val apiServices: ApiServices) {
+class AreaBanjirRepository @Inject constructor(private val apiServices: ApiServices) {
 
     suspend fun getAreaBanjir(): Flow<Resource<AreaBanjir>> {
         return flow {

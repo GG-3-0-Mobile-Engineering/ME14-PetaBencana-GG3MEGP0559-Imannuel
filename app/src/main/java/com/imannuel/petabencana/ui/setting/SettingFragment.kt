@@ -14,8 +14,8 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.imannuel.petabencana.R
 import com.imannuel.petabencana.notification.NotificationWorker
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
-
 
 class SettingFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

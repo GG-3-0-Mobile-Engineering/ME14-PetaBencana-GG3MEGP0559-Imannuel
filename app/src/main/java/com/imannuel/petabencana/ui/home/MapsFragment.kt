@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,11 +31,14 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.search.SearchView
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 import java.util.Locale
+import javax.inject.Inject
 import kotlin.math.abs
 
+@AndroidEntryPoint
 class MapsFragment : Fragment() {
 
     private var _binding: FragmentMapsBinding? = null
@@ -42,7 +46,9 @@ class MapsFragment : Fragment() {
 
     private val boundsBuilder = LatLngBounds.Builder()
 
-    private val viewModel: HomeViewModel by viewModel()
+//    private val viewModel: HomeViewModel by viewModel()
+
+    private val viewModel: HomeViewModel by viewModels()
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: LatestDisasterAdapter

@@ -8,15 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.model.LatLng
 import com.imannuel.petabencana.data.model.Properties
 import com.imannuel.petabencana.databinding.FragmentSavedDetailBinding
 import com.imannuel.petabencana.utils.TimeUtils
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SavedDetailFragment : Fragment() {
 
     private var _binding: FragmentSavedDetailBinding? = null
@@ -26,7 +29,8 @@ class SavedDetailFragment : Fragment() {
     private var lat : Double = 0.0
     private var lon : Double = 0.0
 
-    private val viewModel: SavedDetailViewModel by viewModel()
+//    private val viewModel: SavedDetailViewModel by viewModel()
+    private val viewModel: SavedDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

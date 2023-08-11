@@ -3,13 +3,12 @@ package com.imannuel.petabencana
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
-import com.imannuel.petabencana.di.apiModule
-import com.imannuel.petabencana.di.dbModule
-import com.imannuel.petabencana.di.repositoryModule
-import com.imannuel.petabencana.di.viewModelModule
+import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
+
+@HiltAndroidApp
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
@@ -25,15 +24,15 @@ class MyApplication : Application() {
             AppCompatDelegate.setDefaultNightMode(nightMode)
         }
 
-        startKoin {
-            androidContext(this@MyApplication)
-            modules(
-                dbModule,
-                apiModule,
-                repositoryModule,
-                viewModelModule
-            )
-        }
+//        startKoin {
+//            androidContext(this@MyApplication)
+//            modules(
+//                dbModule,
+//                apiModule,
+//                repositoryModule,
+//                viewModelModule
+//            )
+//        }
     }
 
 
