@@ -18,13 +18,13 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val urunDayaRepository: UrunDayaRepository) : ViewModel() {
 
     private var _area = MutableLiveData<String>()
-    private val area: LiveData<String> = _area.distinctUntilChanged()
+    val area: LiveData<String> = _area.distinctUntilChanged()
 
     private var _disaster = MutableLiveData<String>()
-    private val disaster: LiveData<String> = _disaster.distinctUntilChanged()
+    val disaster: LiveData<String> = _disaster.distinctUntilChanged()
 
     private var _timePeriod = MutableLiveData<Int>()
-    private val timePeriod: LiveData<Int> = _timePeriod.distinctUntilChanged()
+    val timePeriod: LiveData<Int> = _timePeriod.distinctUntilChanged()
 
     private val mediatorLiveData = MediatorLiveData<Triple<String?, String?, Int?>>()
 

@@ -9,12 +9,15 @@ import java.util.TimeZone
 object TimeUtils {
 
     fun getTimeAgo(dateTimeString: String): String {
+        if(dateTimeString.isNullOrBlank()){
+            return ""
+        }
+
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ROOT)
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
 
         val date = inputFormat.parse(dateTimeString)
         if (date == null) {
-            Log.e("getTimeAgo", "Invalid date-time format: $dateTimeString")
             return ""
         }
 
