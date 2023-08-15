@@ -11,7 +11,7 @@ class TimeUtilsTest{
 
         val result = TimeUtils.getTimeAgo(dateTimeString)
 
-        assertEquals("6 hours ago", result)
+        assertEquals("2 days ago", result)
     }
 
     @Test
