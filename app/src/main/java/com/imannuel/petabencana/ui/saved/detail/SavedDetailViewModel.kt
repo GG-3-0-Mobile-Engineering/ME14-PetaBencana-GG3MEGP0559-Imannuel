@@ -9,7 +9,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SavedDetailViewModel @Inject constructor(private val urunDayaRepository: UrunDayaRepository) : ViewModel() {
+class SavedDetailViewModel @Inject constructor(private val urunDayaRepository: UrunDayaRepository) :
+    ViewModel() {
 
     fun saveUrunDaya(urunDaya: Properties) {
         viewModelScope.launch {

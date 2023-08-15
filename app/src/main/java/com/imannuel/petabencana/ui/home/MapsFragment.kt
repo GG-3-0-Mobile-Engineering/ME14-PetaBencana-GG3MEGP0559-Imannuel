@@ -2,7 +2,6 @@ package com.imannuel.petabencana.ui.home
 
 import android.app.DatePickerDialog
 import android.app.UiModeManager
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.res.Configuration
@@ -16,18 +15,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.imannuel.petabencana.R
-import com.imannuel.petabencana.databinding.FragmentMapsBinding
-import com.imannuel.petabencana.ui.home.adapter.LatestDisasterAdapter
-import com.imannuel.petabencana.utils.AreaList
-import com.imannuel.petabencana.utils.Resource
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -37,11 +30,14 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.search.SearchView
+import com.imannuel.petabencana.R
+import com.imannuel.petabencana.databinding.FragmentMapsBinding
+import com.imannuel.petabencana.ui.home.adapter.LatestDisasterAdapter
+import com.imannuel.petabencana.utils.AreaList
+import com.imannuel.petabencana.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 import java.util.Locale
-import javax.inject.Inject
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -49,10 +45,6 @@ class MapsFragment : Fragment() {
 
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
-
-//    private val boundsBuilder = LatLngBounds.Builder()
-
-//    private val viewModel: HomeViewModel by viewModel()
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -81,8 +73,13 @@ class MapsFragment : Fragment() {
 
         mapFragment?.getMapAsync { googleMap ->
 
-            if(setupMapStyle()){
-                googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+            if (setupMapStyle()) {
+                googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        requireContext(),
+                        R.raw.map_style
+                    )
+                )
             }
 
             viewModel.result.observe(viewLifecycleOwner) { result ->
@@ -139,14 +136,19 @@ class MapsFragment : Fragment() {
                     }
 
                     is Resource.Error -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
                         googleMap.clear()
                         setLoading(false)
-                        Log.e(TAG, "err: " + result.error)
+
                     }
 
                     is Resource.Loading -> {
                         setLoading(true)
-                        Log.e(TAG, "loading: ")
                     }
                 }
             }
@@ -215,14 +217,15 @@ class MapsFragment : Fragment() {
         }
     }
 
-    private fun setupMapStyle() : Boolean{
+    private fun setupMapStyle(): Boolean {
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         preferences.getString("darkModePreferenceKey", "auto").apply {
             return when (this) {
                 "off" -> false
                 "on" -> true
                 else -> {
-                    val uiModeManager = requireContext().getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+                    val uiModeManager =
+                        requireContext().getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
                     val nightModeFlags = uiModeManager.nightMode
                     return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
                 }
@@ -278,7 +281,7 @@ class MapsFragment : Fragment() {
         }
     }
 
-    private fun getAddress(latLng: LatLng): String{
+    private fun getAddress(latLng: LatLng): String {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
             val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
@@ -290,7 +293,6 @@ class MapsFragment : Fragment() {
             return ""
         } catch (e: Exception) {
             return ""
-            Log.e(ContentValues.TAG, "getAddress: $e", )
         }
     }
 
@@ -337,10 +339,10 @@ class MapsFragment : Fragment() {
         datePickerDialog.show()
     }
 
-    private fun setLoading(bool : Boolean){
-        if(bool){
+    private fun setLoading(bool: Boolean) {
+        if (bool) {
             binding.progressBar.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.progressBar.visibility = View.GONE
         }
     }

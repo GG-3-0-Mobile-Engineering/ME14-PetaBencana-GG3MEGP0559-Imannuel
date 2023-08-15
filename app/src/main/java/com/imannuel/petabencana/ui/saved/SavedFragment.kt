@@ -1,18 +1,16 @@
 package com.imannuel.petabencana.ui.saved
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imannuel.petabencana.R
 import com.imannuel.petabencana.databinding.FragmentSavedBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
 
@@ -23,14 +21,12 @@ class SavedFragment : Fragment() {
 
     private lateinit var adapter: SavedDisasterAdapter
 
-//    private val viewModel: SavedViewModel by viewModel()
-
     private val viewModel: SavedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSavedBinding.inflate(layoutInflater, container, false)
         return binding.root
     }

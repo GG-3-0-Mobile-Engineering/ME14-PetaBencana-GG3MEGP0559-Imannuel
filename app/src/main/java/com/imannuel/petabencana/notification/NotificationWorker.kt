@@ -5,43 +5,34 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.work.Worker
+import androidx.hilt.work.HiltWorker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.imannuel.petabencana.R
 import com.imannuel.petabencana.data.model.AreaBanjirGeometries
 import com.imannuel.petabencana.data.repository.AreaBanjirRepository
 import com.imannuel.petabencana.utils.Resource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
-class NotificationWorker(context: Context, workerParameters: WorkerParameters) :
-    Worker(context, workerParameters), KoinComponent {
 
-    private val viewModel: AreaBanjirRepository by inject()
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
-    override fun doWork(): Result {
+@HiltWorker
+class NotificationWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted workerParameters: WorkerParameters,
+    private val viewModel: AreaBanjirRepository
+) : CoroutineWorker(context, workerParameters) {
+
+    override suspend fun doWork(): Result {
         try {
+            val result = viewModel.getAreaBanjir()
 
-            coroutineScope.launch {
-                viewModel.getAreaBanjir().collect { result ->
-                    when (result) {
-                        is Resource.Success -> {
-                            showNotification(
-                                result.data.result?.objects?.output?.geometries
-                                    ?: emptyList()
-                            )
-                        }
-
-                        is Resource.Loading -> {
-
-                        }
-
-                        is Resource.Error -> {
-
-                        }
+            result.collect {
+                when (it) {
+                    is Resource.Error -> {}
+                    Resource.Loading -> {}
+                    is Resource.Success -> {
+                        showNotification(it.data.result?.objects?.output?.geometries ?: emptyList())
                     }
                 }
             }

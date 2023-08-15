@@ -15,7 +15,8 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val urunDayaRepository: UrunDayaRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(private val urunDayaRepository: UrunDayaRepository) :
+    ViewModel() {
 
     private var _area = MutableLiveData<String>()
     val area: LiveData<String> = _area.distinctUntilChanged()

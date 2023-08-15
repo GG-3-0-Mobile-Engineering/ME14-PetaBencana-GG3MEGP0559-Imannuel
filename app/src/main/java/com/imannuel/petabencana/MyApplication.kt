@@ -2,14 +2,20 @@ package com.imannuel.petabencana
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.hilt.work.HiltWorkerFactory
 import androidx.preference.PreferenceManager
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import javax.inject.Inject
 
 
 @HiltAndroidApp
-class MyApplication : Application() {
+class MyApplication : Application(), Configuration.Provider {
+
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
     override fun onCreate() {
         super.onCreate()
 
@@ -24,15 +30,13 @@ class MyApplication : Application() {
             AppCompatDelegate.setDefaultNightMode(nightMode)
         }
 
-//        startKoin {
-//            androidContext(this@MyApplication)
-//            modules(
-//                dbModule,
-//                apiModule,
-//                repositoryModule,
-//                viewModelModule
-//            )
-//        }
+    }
+
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .setMinimumLoggingLevel(android.util.Log.DEBUG)
+            .build()
     }
 
 

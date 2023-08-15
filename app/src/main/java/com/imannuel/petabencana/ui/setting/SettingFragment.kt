@@ -17,6 +17,7 @@ import com.imannuel.petabencana.notification.NotificationWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class SettingFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference, rootKey)
@@ -24,7 +25,7 @@ class SettingFragment : PreferenceFragmentCompat() {
         val workManager = WorkManager.getInstance(requireContext())
 
         val darkModePref = findPreference<ListPreference>("darkModePreferenceKey")
-        darkModePref?.setOnPreferenceChangeListener { preference, newValue ->
+        darkModePref?.setOnPreferenceChangeListener { _, newValue ->
 
             val nightMode = when (newValue) {
                 "auto" -> -1
@@ -42,7 +43,7 @@ class SettingFragment : PreferenceFragmentCompat() {
 
 
         val notificationPref = findPreference<SwitchPreference>("notificationPreferenceKey")
-        notificationPref?.setOnPreferenceChangeListener { preference, newValue ->
+        notificationPref?.setOnPreferenceChangeListener { _, newValue ->
             Log.e("TAG", "onCreatePreferences: $newValue")
 
             when (newValue as Boolean) {
@@ -67,7 +68,7 @@ class SettingFragment : PreferenceFragmentCompat() {
 
                     workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id)
                         .observe(requireActivity()) {
-                            Log.e("WORKER", "periodicWorkStatur: ${it.state.name}")
+                            Log.e("WORKER", "periodicWorkStatus: ${it.state.name}")
                         }
 
                 }

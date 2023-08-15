@@ -1,9 +1,7 @@
 package com.imannuel.petabencana.ui.saved.detail
 
-import android.content.ContentValues
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +13,7 @@ import com.imannuel.petabencana.data.model.Properties
 import com.imannuel.petabencana.databinding.FragmentSavedDetailBinding
 import com.imannuel.petabencana.utils.TimeUtils
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SavedDetailFragment : Fragment() {
@@ -26,23 +22,22 @@ class SavedDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var prop: Properties
-    private var lat : Double = 0.0
-    private var lon : Double = 0.0
+    private var lat: Double = 0.0
+    private var lon: Double = 0.0
 
-//    private val viewModel: SavedDetailViewModel by viewModel()
     private val viewModel: SavedDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prop = arguments?.getParcelable("key_data")!!
-        lat = arguments?.getDouble("lat")?.toDouble() ?: 0.0
-        lon = arguments?.getDouble("lon")?.toDouble() ?: 0.0
+        lat = arguments?.getDouble("lat") ?: 0.0
+        lon = arguments?.getDouble("lon") ?: 0.0
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSavedDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -63,9 +58,9 @@ class SavedDetailFragment : Fragment() {
         binding.statusTv.text = "Status: " + prop.status
         binding.sisasterTypeTv.text = "Disaster Type: " + prop.disasterType
 
-        if(address == ""){
+        if (address == "") {
             binding.addressTv.visibility = View.GONE
-        }else{
+        } else {
             binding.addressTv.text = "Address: $address"
 
         }
@@ -86,11 +81,11 @@ class SavedDetailFragment : Fragment() {
 
     }
 
-    private fun getAddress(latLng: LatLng): String{
+    private fun getAddress(latLng: LatLng): String {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
             val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (addresses != null && addresses.isNotEmpty()) {
+            if (!addresses.isNullOrEmpty()) {
                 val address = addresses[0]
                 return address.getAddressLine(0)
             }
@@ -98,7 +93,6 @@ class SavedDetailFragment : Fragment() {
             return ""
         } catch (e: Exception) {
             return ""
-            Log.e(ContentValues.TAG, "getAddress: $e", )
         }
     }
 
