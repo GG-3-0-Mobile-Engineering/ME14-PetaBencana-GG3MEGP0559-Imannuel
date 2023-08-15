@@ -53,7 +53,11 @@ Disaster Map is an application that helps users  to monitor various natural disa
 - date picker dialog displayed
 - navigated to saved fragment working
 - navigated to settins fragment working
+
+  
 **Unit Testing**
+
+All functions within these classes have been included in unit testing
 - ApiServices
 - UrunDayaDAO
 - AreaBanjirRepository
@@ -63,6 +67,8 @@ Disaster Map is an application that helps users  to monitor various natural disa
 - SavedDetailViewModel
 - AreaBanjirList
 - TimeUtils
+  
+
 
 **Instrument Testing Video Flow:**
 [drive](https://drive.google.com/file/d/1j_9wXnC6J-23k_EiNu83-BNUhFk0We3q/view?usp=sharing)
