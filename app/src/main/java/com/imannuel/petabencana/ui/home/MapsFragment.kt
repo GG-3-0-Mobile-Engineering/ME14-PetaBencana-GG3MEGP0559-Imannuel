@@ -2,14 +2,12 @@ package com.imannuel.petabencana.ui.home
 
 import android.app.DatePickerDialog
 import android.app.UiModeManager
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.res.Configuration
 import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -238,7 +236,7 @@ class MapsFragment : Fragment() {
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, AreaList.dataList)
         binding.areaListView.adapter = adapter
 
-        binding.sv.addTransitionListener { searchView, previousState, newState ->
+        binding.sv.addTransitionListener { searchView, _, newState ->
             if (newState == SearchView.TransitionState.SHOWING) {
                 searchView.editText.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(
@@ -268,14 +266,14 @@ class MapsFragment : Fragment() {
 
         binding.sv
             .editText
-            .setOnEditorActionListener { v, actionId, event ->
+            .setOnEditorActionListener { _, _, _ ->
                 binding.searchBar.text = binding.sv.text
                 binding.sv.hide()
                 viewModel.setArea(AreaList.getAreaId(binding.sv.text.toString()))
                 false
             }
 
-        binding.areaListView.setOnItemClickListener { adapterView, view, position, l ->
+        binding.areaListView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem = adapter.getItem(position)
             binding.sv.setText(selectedItem.toString())
         }
@@ -285,7 +283,7 @@ class MapsFragment : Fragment() {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
             val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (addresses != null && addresses.isNotEmpty()) {
+            if (!addresses.isNullOrEmpty()) {
                 val address = addresses[0]
                 return address.getAddressLine(0)
             }
@@ -304,7 +302,7 @@ class MapsFragment : Fragment() {
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            { view, selectedYear, selectedMonth, selectedDay ->
+            { _, selectedYear, selectedMonth, selectedDay ->
 
                 selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
                 val resultInSeconds =

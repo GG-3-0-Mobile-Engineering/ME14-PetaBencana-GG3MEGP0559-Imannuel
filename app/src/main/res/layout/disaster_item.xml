@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="TextView"
+            android:text="@string/disaster_name"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toEndOf="@+id/disasterItemImageView"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:text="@string/time_disaster"
             app:layout_constraintEnd_toEndOf="@+id/disasterItemTitleTv"
             app:layout_constraintStart_toStartOf="@+id/disasterItemTitleTv"
             app:layout_constraintTop_toBottomOf="@+id/disasterItemTitleTv" />
@@ -51,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:text="@string/trainer_name"
             app:layout_constraintEnd_toEndOf="@+id/disasterItemTimeTv"
             app:layout_constraintStart_toStartOf="@+id/disasterItemTimeTv"
             app:layout_constraintTop_toBottomOf="@+id/disasterItemTimeTv" />

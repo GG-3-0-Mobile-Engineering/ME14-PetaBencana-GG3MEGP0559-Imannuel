@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.model.LatLng
+import com.imannuel.petabencana.R
 import com.imannuel.petabencana.data.model.Properties
 import com.imannuel.petabencana.databinding.FragmentSavedDetailBinding
 import com.imannuel.petabencana.utils.TimeUtils
@@ -53,31 +54,42 @@ class SavedDetailFragment : Fragment() {
         val latLng = LatLng(lat, lon)
         val address = getAddress(latLng)
 
-        binding.createdAtTv.text = "Created At: " + TimeUtils.getTimeAgo(prop.createdAt.toString())
-        binding.sourceTv.text = "Source: " + prop.source
-        binding.statusTv.text = "Status: " + prop.status
-        binding.sisasterTypeTv.text = "Disaster Type: " + prop.disasterType
+        val createdAtText = getString(R.string.created_at, TimeUtils.getTimeAgo(prop.createdAt.toString()))
+        binding.createdAtTv.text = createdAtText
 
+        val sourceText = getString(R.string.source, prop.source)
+        binding.sourceTv.text = sourceText
+
+        val statusText = getString(R.string.status, prop.status)
+        binding.statusTv.text = statusText
+
+        val disasterTypeText = getString(R.string.disaster_type, prop.disasterType)
+        binding.sisasterTypeTv.text = disasterTypeText
         if (address == "") {
             binding.addressTv.visibility = View.GONE
         } else {
-            binding.addressTv.text = "Address: $address"
+            val addressText = getString(R.string.address, address)
+            binding.addressTv.text = addressText
 
         }
 
-        viewModel.isUrunDayaExist(prop.pkey.toString()).observe(viewLifecycleOwner) {
-            if (it == 1) {
-                binding.savedActionBtn.text = "DELETE FROM SAVED"
-                binding.savedActionBtn.setOnClickListener {
-                    viewModel.deleteUrunDaya(prop.pkey.toString())
-                }
+        viewModel.isUrunDayaExist(prop.pkey.toString()).observe(viewLifecycleOwner) { exist ->
+            val buttonTextRes = if (exist == 1) {
+                R.string.delete_from_saved
             } else {
-                binding.savedActionBtn.text = "SAVE"
-                binding.savedActionBtn.setOnClickListener {
+                R.string.save
+            }
+            binding.savedActionBtn.text = getString(buttonTextRes)
+
+            binding.savedActionBtn.setOnClickListener {
+                if (exist == 1) {
+                    viewModel.deleteUrunDaya(prop.pkey.toString())
+                } else {
                     viewModel.saveUrunDaya(prop)
                 }
             }
         }
+
 
     }
 

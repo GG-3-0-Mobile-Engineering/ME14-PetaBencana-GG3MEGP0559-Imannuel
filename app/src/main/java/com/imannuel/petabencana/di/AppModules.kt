@@ -5,18 +5,13 @@ import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.startup.Initializer
 import androidx.work.Configuration
-import androidx.work.ListenableWorker
 import androidx.work.WorkManager
-import androidx.work.Worker
-import androidx.work.WorkerFactory
-import androidx.work.WorkerParameters
 import com.imannuel.petabencana.BuildConfig
 import com.imannuel.petabencana.data.repository.AreaBanjirRepository
 import com.imannuel.petabencana.data.repository.UrunDayaRepository
 import com.imannuel.petabencana.data.source.local.room.UrunDayaDAO
 import com.imannuel.petabencana.data.source.local.room.UrunDayaDatabase
 import com.imannuel.petabencana.data.source.remote.ApiServices
-import com.imannuel.petabencana.notification.NotificationWorker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.EntryPoint
@@ -24,9 +19,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoMap
-import javax.inject.Inject
-import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module

@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Flood"
+                    android:text="@string/flood"
                     app:checkedIconVisible="true"
                     app:chipIcon="@drawable/baseline_add_24" />
 
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Earthquake"
+                    android:text="@string/earthquake"
                     app:checkedIconVisible="true"
                     app:chipIcon="@drawable/baseline_add_24" />
 
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Fire"
+                    android:text="@string/fire"
                     app:checkedIconVisible="true"
                     app:chipIcon="@drawable/baseline_add_24" />
 
@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Haze"
+                    android:text="@string/haze"
                     app:checkedIconVisible="true"
                     app:chipIcon="@drawable/baseline_add_24" />
 
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Volcano"
+                    android:text="@string/volcano"
                     app:checkedIconVisible="true"
                     app:chipIcon="@drawable/baseline_add_24" />
 
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkable="true"
-                    android:text="Wind"
+                    android:text="@string/wind"
                     app:checkedIconVisible="true"
                     app:chipIcon="@drawable/baseline_add_24" />
             </com.google.android.material.chip.ChipGroup>

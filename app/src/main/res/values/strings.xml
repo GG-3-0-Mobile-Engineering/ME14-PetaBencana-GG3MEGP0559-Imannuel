@@ -2,4 +2,27 @@
     <string name="app_name">Peta Bencana</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="created_at">Created At: %1$s</string>
+    <string name="source">Source: %1$s</string>
+    <string name="status">Status: %1$s</string>
+    <string name="disaster_type">Disaster Type: %1$s</string>
+    <string name="address">Address: %1$s</string>
+    <string name="delete_from_saved">DELETE FROM SAVED</string>
+    <string name="save">SAVE</string>
+    <string name="empty_favorite">Belum Ada Favorite</string>
+    <string name="disaster_name">Disaster Name</string>
+    <string name="time_disaster">Time Disaster</string>
+    <string name="trainer_name">Trainer Name</string>
+    <string name="flood">Flood</string>
+    <string name="earthquake">Earthquake</string>
+    <string name="fire">Fire</string>
+    <string name="haze">Haze</string>
+    <string name="volcano">Volcano</string>
+    <string name="wind">Wind</string>
+    <string name="disaster_detail">Disaster Detail</string>
+    <string name="period">Period</string>
+    <string name="saved">Saved</string>
+    <string name="settings">Settings</string>
+
 </resources>

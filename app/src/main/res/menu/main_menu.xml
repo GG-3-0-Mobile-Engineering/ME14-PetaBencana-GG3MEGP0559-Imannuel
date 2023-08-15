@@ -4,17 +4,17 @@
 
     <item android:id="@+id/menu_period"
         android:icon="@drawable/baseline_access_time_24"
-        android:title="Period"
+        android:title="@string/period"
         app:showAsAction="always"
         />
 
     <item android:id="@+id/menu_saved"
         android:icon="@drawable/baseline_bookmark_border_24"
-        android:title="Saved"
+        android:title="@string/saved"
         app:showAsAction="always"/>
 
     <item android:id="@+id/menu_settings"
         android:icon="@drawable/outline_settings_24"
-        android:title="Settings"
+        android:title="@string/settings"
         app:showAsAction="always"/>
 </menu>

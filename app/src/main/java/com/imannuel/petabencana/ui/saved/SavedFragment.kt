@@ -52,6 +52,12 @@ class SavedFragment : Fragment() {
         binding.savedDisasterRv.adapter = adapter
 
         viewModel.getSavedUrunDaya().observe(viewLifecycleOwner) {
+            if(it.isEmpty()){
+                binding.emptyText.visibility = View.VISIBLE
+            }else{
+                binding.emptyText.visibility = View.GONE
+            }
+
             adapter.setData(it)
         }
 
