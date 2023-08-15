@@ -17,10 +17,13 @@ Disaster Map is an application that helps users  to monitor various natural disa
 
 ## Built With
 1. MVVM - A design pattern that separates the user interface from the business logic.
-2. Koin - A lightweight dependency injection framework for Kotlin.
+2. Hilt - A lightweight dependency injection framework for Kotlin.
 3. Retrofit - Used for making network requests and handling API communication.
 4. Room - A persistence library for Android that provides an abstraction layer over SQLite to work with local databases.
 5. Glide - An image loading library for Android, used to efficiently load and display images in the app.
+6. JUnit4 - Java testing framework that provides annotations and APIs for writing and running unit tests to ensure code functionality
+7. Mockito -Java mocking framework that aids in creating mock objects for testing by simulating dependencies, enabling isolated and controlled unit testing.
+   
 ## Installation
 
 **Clone Project**
@@ -35,15 +38,40 @@ Disaster Map is an application that helps users  to monitor various natural disa
 4. Go to ApiConfig.kt and change the baseUrl to "https://data.petabencana.id/".
 
 **APK Installation**
-1. Google Drive: 
-```bash
-  https://drive.google.com/file/d/1c0BureeGaE7I3Xk9TdKmNbLNKGqQ5-mb/view?usp=sharing
-```
-2. Github Release(Alternartive)
+1. Google Drive: \
+   [midterm](https://drive.google.com/file/d/1c0BureeGaE7I3Xk9TdKmNbLNKGqQ5-mb/view?usp=sharing) \
+   [final](https://drive.google.com/file/d/1Z0GWsn25ZyO1bQw5z04EBF6iUC37APqU/view?usp=sharing)
+2. Github Release(Alternative)
 
+## Testing Scenario
+**Instrument Testing**
+- map displayed
+- bottom sheet displayed
+- disaster chip group displayed
+- disaster clickable
+- search bar displayed and working
+- date picker dialog displayed
+- navigated to saved fragment working
+- navigated to settins fragment working
+**Unit Testing**
+- ApiServices
+- UrunDayaDAO
+- AreaBanjirRepository
+- UrunDayaRepository
+- HomeViewModel
+- SavedViewModel
+- SavedDetailViewModel
+- AreaBanjirList
+- TimeUtils
 
+**Instrument Testing Video Flow:**
+[drive](https://drive.google.com/file/d/1j_9wXnC6J-23k_EiNu83-BNUhFk0We3q/view?usp=sharing)
 
-    
+**Unit Testing Coverage:**
+
+<img src="test coverage.jpg" width="75%"> 
+<img src="test coverage 2.jpg" width="75%">
+
 ## Screenshots
 
 <img src="home.png" width="25%"> <img src="period.png" width="25%">  <img src="detail.png" width="25%">  <img src="settings.png" width="25%"> 
@@ -51,6 +79,7 @@ Disaster Map is an application that helps users  to monitor various natural disa
 
 
 ## Demo
+[drive](https://drive.google.com/file/d/1cj1PCtFuxZR2yFDvwkc17gCrUb11l21u/view?usp=sharing) \
+[youtube](https://youtu.be/s8dIwldJb20)
 
-https://drive.google.com/file/d/1cj1PCtFuxZR2yFDvwkc17gCrUb11l21u/view?usp=sharing
-https://youtu.be/s8dIwldJb20
+
