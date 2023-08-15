@@ -236,6 +236,8 @@ class MapsFragment : Fragment() {
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, AreaList.dataList)
         binding.areaListView.adapter = adapter
 
+
+
         binding.sv.addTransitionListener { searchView, _, newState ->
             if (newState == SearchView.TransitionState.SHOWING) {
                 searchView.editText.addTextChangedListener(object : TextWatcher {
@@ -273,9 +275,13 @@ class MapsFragment : Fragment() {
                 false
             }
 
+
         binding.areaListView.setOnItemClickListener { _, _, position, _ ->
             val selectedItem = adapter.getItem(position)
             binding.sv.setText(selectedItem.toString())
+            binding.searchBar.text = binding.sv.text
+            binding.sv.hide()
+            viewModel.setArea(AreaList.getAreaId(binding.sv.text.toString()))
         }
     }
 

@@ -45,12 +45,11 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class MapsFragmentTest{
+class MapsFragmentTest {
 
 
     @get:Rule
     val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
-
 
 
     @Test
@@ -81,7 +80,6 @@ class MapsFragmentTest{
         onView(allOf(withId(R.id.settingFragment), isDisplayed()))
 
     }
-
 
 
 }
